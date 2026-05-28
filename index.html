@@ -222,6 +222,8 @@ body {
   color: var(--header-text);
   font-size: 24px;
   cursor: pointer;
+  width: 44px;
+  height: 44px;
 }
 
 /* Chat Header */
@@ -243,6 +245,9 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chat-header-avatar {
@@ -322,15 +327,6 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.chat-meta {
-  text-align: right;
-}
-
-.chat-time {
-  font-size: 10px;
-  color: var(--text-muted);
 }
 
 /* Messages */
@@ -416,7 +412,7 @@ body {
   font-size: 18px;
 }
 
-/* Friend Request Items */
+/* Friend Items */
 .request-item, .friend-item, .search-result-item {
   display: flex;
   align-items: center;
@@ -468,26 +464,10 @@ body {
   cursor: pointer;
 }
 
-.accept-btn {
-  background: var(--accent);
-  color: white;
-}
-
-.decline-btn, .remove-friend-btn {
-  background: var(--danger);
-  color: white;
-}
-
-.add-friend-btn {
-  background: var(--accent);
-  color: white;
-}
-
-.message-friend-btn {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-}
+.accept-btn { background: var(--accent); color: white; }
+.decline-btn, .remove-friend-btn { background: var(--danger); color: white; }
+.add-friend-btn { background: var(--accent); color: white; }
+.message-friend-btn { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); }
 
 /* Search Bar */
 .search-bar {
@@ -515,10 +495,6 @@ body {
   font-size: 14px;
 }
 
-.search-container input::placeholder {
-  color: var(--text-muted);
-}
-
 /* Bottom Nav */
 .bottom-nav {
   background: var(--bg-primary);
@@ -538,101 +514,107 @@ body {
   cursor: pointer;
 }
 
-.nav-icon {
-  font-size: 22px;
-  color: #999;
-}
+.nav-icon { font-size: 22px; color: #999; }
+.nav-label { font-size: 10px; color: #999; }
+.nav-item.active .nav-icon, .nav-item.active .nav-label { color: var(--accent); }
 
-.nav-label {
-  font-size: 10px;
-  color: #999;
-}
-
-.nav-item.active .nav-icon, .nav-item.active .nav-label {
-  color: var(--accent);
-}
-
-/* Badge */
-.badge {
-  background: var(--danger);
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 10px;
-  display: inline-flex;
+/* Profile Screen */
+.profile-avatar-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--avatar-grad-start), var(--avatar-grad-end));
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5px;
-  position: absolute;
-  top: -5px;
-  right: -10px;
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--avatar-text);
+  margin: 30px auto 20px;
 }
+
+.profile-name {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.profile-status {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.danger-text { color: var(--danger); }
+
+/* Settings */
+.settings-body { flex: 1; overflow-y: auto; padding-bottom: 24px; }
+.settings-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); padding: 18px 16px 6px; }
+.settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; }
+.settings-row-left { display: flex; align-items: center; gap: 12px; }
+.settings-row-icon { font-size: 20px; width: 28px; }
+.settings-row-inline { cursor: default; }
+.settings-row-inline select, .settings-row-inline input { padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); font-size: 13px; }
+.settings-save-full-btn { display: block; width: calc(100% - 32px); margin: 24px 16px 0; background: #075E54; color: white; border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; }
+
+/* Help */
+.help-body { padding: 20px 16px; }
+.help-intro { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+.help-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.help-table thead tr { background: var(--header-bg); }
+.help-table thead th { color: white; font-size: 12px; padding: 12px 14px; text-align: left; }
+.help-table td { padding: 13px 14px; font-size: 13px; border-bottom: 1px solid var(--border); }
+
+/* Status & Calls */
+.status-list, .call-list { padding: 16px; }
+.status-card, .call-item { background: var(--bg-secondary); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--border); }
+.status-avatar-small, .call-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--avatar-grad-start), var(--avatar-grad-end)); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--avatar-text); }
+.add-status-btn, .call-btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 30px; font-size: 14px; font-weight: 600; margin: 16px; cursor: pointer; }
+.call-btn { margin: 0; width: 40px; height: 40px; border-radius: 50%; padding: 0; }
 
 /* Dropdown */
-.dropdown-menu {
-  position: fixed;
-  top: 60px;
-  right: 16px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  width: 200px;
-  z-index: 200;
-  display: none;
-}
-
+.dropdown-menu { position: fixed; top: 60px; right: 16px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 16px; width: 200px; z-index: 200; display: none; }
 .dropdown-menu.show { display: block; }
 .dropdown-item { padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); }
 
 /* Modal */
-.status-modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--bg-primary);
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  padding: 20px;
-  z-index: 200;
-  transform: translateY(100%);
-  transition: transform 0.3s;
-}
+.status-modal { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-primary); border-top-left-radius: 20px; border-top-right-radius: 20px; padding: 20px; z-index: 200; transform: translateY(100%); transition: transform 0.3s; }
 .status-modal.open { transform: translateY(0); }
-.status-modal textarea { width: 100%; padding: 12px; border-radius: 12px; margin: 12px 0; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); }
+.status-modal textarea { width: 100%; padding: 12px; border-radius: 12px; margin: 12px 0; background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); }
 .modal-buttons { display: flex; gap: 12px; }
-.modal-save { background: var(--accent); color: white; padding: 12px; border: none; border-radius: 12px; flex:1; }
-.modal-cancel { background: var(--bg-secondary); padding: 12px; border: none; border-radius: 12px; flex:1; }
+.modal-save { background: var(--accent); color: white; padding: 12px; border: none; border-radius: 12px; flex: 1; }
+.modal-cancel { background: var(--bg-secondary); padding: 12px; border: none; border-radius: 12px; flex: 1; }
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; display: none; }
 .overlay.show { display: block; }
-
-/* Empty State */
-.empty-state {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 40px;
-  text-align: center;
-  color: var(--text-muted);
-}
+.empty-state { padding: 40px; text-align: center; color: var(--text-muted); }
 </style>
 </head>
 <body>
 
 <div class="app-container">
-  
   <!-- Auth Screen -->
   <div class="screen-auth show" id="screenAuth">
     <div class="auth-container">
       <div class="auth-card">
         <h2>🔒 JUSTUS</h2>
         <div class="auth-error" id="authError"></div>
-        <input type="email" id="authEmail" class="auth-input" placeholder="Email" autocomplete="email">
+        <input type="email" id="authEmail" class="auth-input" placeholder="Email">
         <input type="password" id="authPassword" class="auth-input" placeholder="Password">
         <input type="text" id="authName" class="auth-input" placeholder="Display Name" style="display:none">
         <button class="auth-btn" id="authBtn">Sign In</button>
@@ -659,30 +641,16 @@ body {
 
   <!-- Friends Screen -->
   <div class="screen-friends" id="screenFriends">
-    <div class="header">
-      <button class="header-btn" id="friendsBackBtn">←</button>
-      <div class="header-center"><h1>Friends</h1></div>
-      <button class="header-btn" id="addFriendBtn">+</button>
-    </div>
+    <div class="header"><button class="header-btn" id="friendsBackBtn">←</button><div class="header-center"><h1>Friends</h1></div><button class="header-btn" id="addFriendBtn">+</button></div>
     <div class="chat-list" id="friendsList"></div>
   </div>
 
   <!-- Add Friend Screen -->
   <div class="screen-add-friend" id="screenAddFriend">
-    <div class="header">
-      <button class="header-btn" id="addFriendBackBtn">←</button>
-      <div class="header-center"><h1>Add Friend</h1></div>
-      <div style="width:44px"></div>
-    </div>
-    <div class="search-bar">
-      <div class="search-container">
-        <span>🔍</span>
-        <input type="text" id="searchUserInput" placeholder="Search by username or email">
-      </div>
-    </div>
+    <div class="header"><button class="header-btn" id="addFriendBackBtn">←</button><div class="header-center"><h1>Add Friend</h1></div><div style="width:44px"></div></div>
+    <div class="search-bar"><div class="search-container"><span>🔍</span><input type="text" id="searchUserInput" placeholder="Search by username"></div></div>
     <div class="chat-list" id="searchResults"></div>
-    
-    <div class="header" style="margin-top: 20px;"><div class="header-center"><h1>Friend Requests</h1></div><div style="width:44px"></div></div>
+    <div class="header" style="margin-top:20px"><div class="header-center"><h1>Friend Requests</h1></div><div style="width:44px"></div></div>
     <div class="chat-list" id="friendRequestsList"></div>
   </div>
 
@@ -691,28 +659,19 @@ body {
     <div class="chat-header">
       <button class="back-btn" id="chatBackBtn">←</button>
       <div class="chat-header-avatar" id="chatAvatar">?</div>
-      <div class="chat-header-info">
-        <div class="chat-header-name" id="chatName"></div>
-        <div class="chat-header-status" id="chatStatus">Online</div>
-      </div>
+      <div class="chat-header-info"><div class="chat-header-name" id="chatName"></div><div class="chat-header-status" id="chatStatus">Online</div></div>
     </div>
     <div class="messages-area" id="messagesArea"></div>
-    <div class="input-area">
-      <textarea class="message-input" id="messageInput" rows="1" placeholder="Type a message..."></textarea>
-      <button class="send-btn" id="sendBtn">➤</button>
-    </div>
+    <div class="input-area"><textarea class="message-input" id="messageInput" rows="1" placeholder="Type a message..."></textarea><button class="send-btn" id="sendBtn">➤</button></div>
   </div>
 
   <!-- Profile Screen -->
   <div class="screen-profile" id="screenProfile">
-    <div class="chat-header">
-      <button class="back-btn" id="profileBackBtn">←</button>
-      <div class="chat-header-info"><div class="chat-header-name" id="profileNameHeader"></div></div>
-    </div>
+    <div class="chat-header"><button class="back-btn" id="profileBackBtn">←</button><div class="chat-header-info"><div class="chat-header-name" id="profileNameHeader"></div></div></div>
     <div class="profile-avatar-large" id="profileAvatar">?</div>
     <div class="profile-name" id="profileName"></div>
     <div class="profile-status" id="profileStatus"></div>
-    <div class="profile-section"><div class="profile-item" id="removeFriendItem"><div class="profile-item-left"><span class="profile-item-icon">🚫</span><span class="profile-item-label">Remove Friend</span></div><span class="danger-text">Remove →</span></div></div>
+    <div class="profile-item" id="removeFriendItem"><div class="profile-item-left"><span class="profile-item-icon">🚫</span><span>Remove Friend</span></div><span class="danger-text">Remove →</span></div>
   </div>
 
   <!-- Updates Screen -->
@@ -733,11 +692,11 @@ body {
     <div class="header"><button class="back-btn" id="settingsBackBtn">←</button><div class="header-center"><h1 style="font-size:18px;">SETTINGS</h1></div><div style="width:36px"></div></div>
     <div class="settings-body">
       <div class="settings-section-label">Account</div>
-      <div class="settings-row" id="accSettingsBtn"><div class="settings-row-left"><span class="settings-row-icon">👤</span><span class="settings-row-label">Change Password</span></div><span class="settings-chevron">›</span></div>
+      <div class="settings-row" id="accSettingsBtn"><div class="settings-row-left"><span class="settings-row-icon">👤</span><span>Change Password</span></div><span class="settings-chevron">›</span></div>
       <div class="settings-section-label">Appearance</div>
-      <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">🎨</span><span class="settings-row-label">Theme</span></div><select id="themeSelect"><option value="light">Light</option><option value="dark">Dark</option><option value="oled">OLED Black</option></select></div>
+      <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">🎨</span><span>Theme</span></div><select id="themeSelect"><option value="light">Light</option><option value="dark">Dark</option><option value="oled">OLED Black</option></select></div>
       <div class="settings-section-label">Profile</div>
-      <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">✏️</span><span class="settings-row-label">Username</span></div><input type="text" id="usernameInput" placeholder="Your name"></div>
+      <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">✏️</span><span>Username</span></div><input type="text" id="usernameInput" placeholder="Your name"></div>
       <button class="settings-save-full-btn" id="saveSettingsBtn">Save Settings</button>
     </div>
   </div>
@@ -745,7 +704,7 @@ body {
   <!-- Help Screen -->
   <div class="screen-help" id="screenHelp">
     <div class="header"><button class="back-btn" id="helpBackBtn">←</button><div class="header-center"><h1 style="font-size:18px;">HELP</h1></div><div style="width:36px"></div></div>
-    <div class="help-body"><p class="help-intro">Quick reference for JUSTUS.</p><table class="help-table"><thead><tr><th>Action</th><th>How to do it</th></tr></thead><tbody><tr><td>Add a friend</td><td>Tap 👥 → + → Search for username → Send Request</td></tr><tr><td>Accept request</td><td>Tap 👥 → Friend Requests → Accept</td></tr><tr><td>Start a chat</td><td>Tap on friend's name in Chats or Friends list</td></tr><tr><td>Remove a friend</td><td>Long-press a chat → Remove Friend</td></tr></tbody></table></div>
+    <div class="help-body"><p class="help-intro">Quick reference for JUSTUS.</p><table class="help-table"><thead><tr><th>Action</th><th>How to do it</th></tr></thead><tbody><tr><td>Add a friend</td><td>Tap 👥 → + → Search → Send Request</td></tr><tr><td>Accept request</td><td>Tap 👥 → Friend Requests → Accept</td></tr><tr><td>Remove friend</td><td>Long-press chat → Remove Friend</td></tr><tr><td>Back button</td><td>Press phone's back button to go back</td></tr></tbody></table></div>
   </div>
 
   <div class="bottom-nav">
@@ -764,11 +723,13 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth(), db = firebase.database();
 
 let currentUser = null, currentChatId = null, currentProfileId = null, allUsers = {};
-let friends = [], friendRequests = [], sentRequests = [];
+let friends = [], friendRequests = [];
 let statuses = JSON.parse(localStorage.getItem('justus_statuses') || '[{"name":"Alex","text":"Working on JUSTUS! 🚀","time":"2 hours ago","avatar":"A"}]');
 let calls = JSON.parse(localStorage.getItem('justus_calls') || '[]');
+let navigationHistory = ['chats'];
 
 function showScreen(screen) {
+  if (navigationHistory[navigationHistory.length - 1] !== screen) navigationHistory.push(screen);
   document.querySelectorAll('[class^="screen-"]').forEach(s => s.classList.remove('show'));
   document.getElementById(`screen${screen.charAt(0).toUpperCase() + screen.slice(1)}`).classList.add('show');
   document.querySelectorAll('.nav-item').forEach(item => { item.classList.remove('active'); if (item.dataset.screen === screen) item.classList.add('active'); });
@@ -777,6 +738,21 @@ function showScreen(screen) {
   if (screen === 'calls') renderCallList();
   if (screen === 'friends') loadFriendsAndRequests();
 }
+
+function goBackToChats() { showScreen('chats'); navigationHistory = ['chats']; }
+
+// Hardware back button support (Android)
+document.addEventListener('backbutton', function(e) {
+  e.preventDefault();
+  const current = navigationHistory[navigationHistory.length - 1];
+  if (current !== 'chats') { goBackToChats(); }
+  else { if (confirm('Exit JUSTUS?')) navigator.app.exitApp(); }
+});
+window.addEventListener('popstate', function(e) {
+  if (navigationHistory.length > 1) { e.preventDefault(); goBackToChats(); history.pushState(null, null, location.href); }
+  else { if (confirm('Exit JUSTUS?')) return; history.pushState(null, null, location.href); }
+});
+history.pushState(null, null, location.href);
 
 // Auth
 let isSignup = false;
@@ -793,26 +769,17 @@ document.getElementById('authBtn').onclick = async () => {
 auth.onAuthStateChanged(async user => {
   if (user) {
     currentUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
-    document.getElementById('screenAuth').style.display = 'none';
     await db.ref(`users/${user.uid}`).set({ name: currentUser.name, email: currentUser.email, online: true, lastSeen: Date.now() });
     db.ref(`users/${user.uid}/online`).onDisconnect().set(false);
-    await loadUserData();
-    loadAllUsers();
+    const snap = await db.ref(`friends/${currentUser.uid}`).once('value');
+    friends = snap.val() || [];
+    const reqSnap = await db.ref(`friendRequests/${currentUser.uid}/incoming`).once('value');
+    friendRequests = reqSnap.val() || [];
+    db.ref('users').on('value', s => { allUsers = s.val() || {}; renderChatList(); });
     showScreen('chats');
     document.getElementById('usernameInput').value = currentUser.name;
   } else { showScreen('auth'); }
 });
-
-async function loadUserData() {
-  const snapshot = await db.ref(`friends/${currentUser.uid}`).once('value');
-  friends = snapshot.val() || [];
-  const reqSnap = await db.ref(`friendRequests/${currentUser.uid}/incoming`).once('value');
-  friendRequests = reqSnap.val() || [];
-}
-
-function loadAllUsers() {
-  db.ref('users').on('value', snap => { allUsers = snap.val() || {}; renderChatList(); });
-}
 
 function getKey(uid1, uid2) { return [uid1, uid2].sort().join('_'); }
 
@@ -825,7 +792,7 @@ function renderChatList() {
 }
 
 function openChat(uid, name) {
-  if (!friends.includes(uid)) { alert('You are not friends with this user'); return; }
+  if (!friends.includes(uid)) { alert('You are not friends'); return; }
   currentChatId = uid;
   document.getElementById('chatName').innerText = name;
   document.getElementById('chatAvatar').innerText = name[0].toUpperCase();
@@ -840,7 +807,7 @@ function appendMessage(msg) {
   const container = document.getElementById('messagesArea');
   const isMine = msg.sender === currentUser.uid;
   const time = new Date(msg.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-  if (container.innerHTML === '' || container.innerHTML.includes('No messages')) container.innerHTML = '';
+  if (container.innerHTML === '') container.innerHTML = '';
   container.innerHTML += `<div class="message ${isMine ? 'sent' : 'received'}"><div class="message-bubble">${msg.text}<div class="message-meta"><span>${time}</span>${isMine ? ' ✓✓' : ''}</div></div></div>`;
   container.scrollTop = container.scrollHeight;
 }
@@ -849,30 +816,32 @@ document.getElementById('sendBtn').onclick = () => {
   const input = document.getElementById('messageInput');
   const text = input.value.trim();
   if (!text || !currentChatId || !friends.includes(currentChatId)) return;
-  const key = getKey(currentUser.uid, currentChatId);
-  db.ref(`messages/${key}`).push({ text, sender: currentUser.uid, ts: Date.now() });
+  db.ref(`messages/${getKey(currentUser.uid, currentChatId)}`).push({ text, sender: currentUser.uid, ts: Date.now() });
   input.value = '';
 };
 document.getElementById('messageInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('sendBtn').click(); } });
-document.getElementById('chatBackBtn').onclick = () => showScreen('chats');
-document.getElementById('profileBackBtn').onclick = () => showScreen('chats');
-document.getElementById('settingsBackBtn').onclick = () => showScreen('chats');
-document.getElementById('helpBackBtn').onclick = () => showScreen('chats');
-document.getElementById('friendsBackBtn').onclick = () => showScreen('chats');
+
+// Navigation buttons
+document.getElementById('chatBackBtn').onclick = goBackToChats;
+document.getElementById('profileBackBtn').onclick = goBackToChats;
+document.getElementById('settingsBackBtn').onclick = goBackToChats;
+document.getElementById('helpBackBtn').onclick = goBackToChats;
+document.getElementById('friendsBackBtn').onclick = goBackToChats;
 document.getElementById('addFriendBackBtn').onclick = () => showScreen('friends');
 
 function openProfile(uid) { currentProfileId = uid; const user = allUsers[uid]; document.getElementById('profileAvatar').innerText = user?.name?.[0]?.toUpperCase() || '?'; document.getElementById('profileName').innerText = user?.name || 'User'; document.getElementById('profileNameHeader').innerText = user?.name || 'Profile'; document.getElementById('profileStatus').innerText = user?.online ? 'Online' : 'Offline'; showScreen('profile'); }
-document.getElementById('removeFriendItem').onclick = async () => { if (confirm('Remove this friend?')) { friends = friends.filter(f => f !== currentProfileId); await db.ref(`friends/${currentUser.uid}`).set(friends); await db.ref(`messages/${getKey(currentUser.uid, currentProfileId)}`).remove(); alert('Friend removed'); showScreen('chats'); loadFriendsAndRequests(); } };
+document.getElementById('removeFriendItem').onclick = async () => { if (confirm('Remove this friend?')) { friends = friends.filter(f => f !== currentProfileId); await db.ref(`friends/${currentUser.uid}`).set(friends); alert('Friend removed'); showScreen('chats'); loadFriendsAndRequests(); } };
 
 // Friend System
 document.getElementById('friendsBtn').onclick = () => { loadFriendsAndRequests(); showScreen('friends'); };
 document.getElementById('addFriendBtn').onclick = () => { document.getElementById('searchUserInput').value = ''; document.getElementById('searchResults').innerHTML = ''; loadFriendRequestsDisplay(); showScreen('add-friend'); };
 
 async function loadFriendsAndRequests() {
-  await loadUserData();
+  const snap = await db.ref(`friends/${currentUser.uid}`).once('value');
+  friends = snap.val() || [];
   const container = document.getElementById('friendsList');
   const friendUsers = friends.filter(f => allUsers[f]).map(fid => allUsers[fid]);
-  if (!friendUsers.length) { container.innerHTML = '<div class="empty-state">👋 No friends yet<br>Tap + to add friends!</div>'; return; }
+  if (!friendUsers.length) { container.innerHTML = '<div class="empty-state">👋 No friends yet</div>'; return; }
   container.innerHTML = friendUsers.map(f => `<div class="friend-item" data-id="${f.uid}"><div class="friend-avatar">${(f.name||'?')[0].toUpperCase()}</div><div class="friend-info"><div class="friend-name">${f.name}</div><div class="friend-status">${f.online ? '🟢 Online' : '⚫ Offline'}</div></div><button class="message-friend-btn" data-id="${f.uid}">💬</button></div>`).join('');
   document.querySelectorAll('.message-friend-btn').forEach(btn => { btn.onclick = () => openChat(btn.dataset.id, allUsers[btn.dataset.id]?.name); });
 }
@@ -888,7 +857,6 @@ async function loadFriendRequestsDisplay() {
   document.querySelectorAll('.decline-btn').forEach(btn => { btn.onclick = async () => { await db.ref(`friendRequests/${currentUser.uid}/incoming/${btn.dataset.id}`).remove(); loadFriendRequestsDisplay(); }; });
 }
 
-// Search for users
 let searchTimeout;
 document.getElementById('searchUserInput').addEventListener('input', (e) => {
   clearTimeout(searchTimeout);
@@ -926,8 +894,9 @@ document.getElementById('cancelStatusBtn').onclick = () => { document.getElement
 document.getElementById('postStatusBtn').onclick = () => { const text = document.getElementById('statusInput').value.trim(); if (text) { statuses.unshift({ name: currentUser?.name || 'User', text, time: 'Just now', avatar: (currentUser?.name?.[0] || 'U').toUpperCase() }); localStorage.setItem('justus_statuses', JSON.stringify(statuses.slice(0,20))); renderStatusList(); document.getElementById('statusModal').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); document.getElementById('statusInput').value = ''; alert('Status posted!'); } };
 document.getElementById('overlay').onclick = () => { document.getElementById('statusModal').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); };
 
-// Navigation
+// Bottom Nav
 document.querySelectorAll('.nav-item').forEach(item => { item.onclick = () => { if (item.dataset.screen === 'chats') showScreen('chats'); else if (item.dataset.screen === 'updates') { renderStatusList(); showScreen('updates'); } else if (item.dataset.screen === 'calls') { renderCallList(); showScreen('calls'); } }; });
+
 const menuBtn = document.getElementById('menuBtn'), dropdown = document.getElementById('dropdownMenu');
 menuBtn.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('show'); };
 document.onclick = () => dropdown.classList.remove('show');
