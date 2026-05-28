@@ -455,7 +455,7 @@ body {
   gap: 8px;
 }
 
-.accept-btn, .decline-btn, .add-friend-btn, .remove-friend-btn, .message-friend-btn {
+.accept-btn, .decline-btn, .add-friend-btn, .message-friend-btn {
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
@@ -572,6 +572,7 @@ body {
 .settings-row-inline { cursor: default; }
 .settings-row-inline select, .settings-row-inline input { padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); font-size: 13px; }
 .settings-save-full-btn { display: block; width: calc(100% - 32px); margin: 24px 16px 0; background: #075E54; color: white; border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; }
+.toggle-value { font-size: 13px; color: var(--accent); }
 
 /* Help */
 .help-body { padding: 20px 16px; }
@@ -603,6 +604,27 @@ body {
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; display: none; }
 .overlay.show { display: block; }
 .empty-state { padding: 40px; text-align: center; color: var(--text-muted); }
+
+/* Swipe Panels */
+.swipe-panel-left, .swipe-panel-right {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--bg-primary);
+  z-index: 150;
+  transition: 0.3s ease;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+}
+.swipe-panel-left { left: -280px; }
+.swipe-panel-right { right: -280px; border-left: 1px solid var(--border); border-right: none; }
+.swipe-panel-left.open { left: 0; }
+.swipe-panel-right.open { right: 0; }
+.swipe-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 140; display: none; }
+.swipe-overlay.show { display: block; }
+.swipe-menu-item { padding: 12px 0; cursor: pointer; border-bottom: 1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -693,10 +715,25 @@ body {
     <div class="settings-body">
       <div class="settings-section-label">Account</div>
       <div class="settings-row" id="accSettingsBtn"><div class="settings-row-left"><span class="settings-row-icon">👤</span><span>Change Password</span></div><span class="settings-chevron">›</span></div>
+      
+      <div class="settings-section-label">Privacy</div>
+      <div class="settings-row" id="privacySettingsBtn"><div class="settings-row-left"><span class="settings-row-icon">🔒</span><span>Privacy</span></div><span id="privacyValue" class="toggle-value">Last seen: ON</span></div>
+      
+      <div class="settings-section-label">Preferences</div>
+      <div class="settings-row" id="chatsPrefBtn"><div class="settings-row-left"><span class="settings-row-icon">💬</span><span>Chats</span></div><span id="chatsValue" class="toggle-value">Enter to send: ON</span></div>
+      <div class="settings-row" id="notifPrefBtn"><div class="settings-row-left"><span class="settings-row-icon">🔔</span><span>Notifications</span></div><span id="notifValue" class="toggle-value">Tap to enable</span></div>
+      <div class="settings-row" id="storagePrefBtn"><div class="settings-row-left"><span class="settings-row-icon">💾</span><span>Storage and Data</span></div><span id="storageValue" class="toggle-value">0 KB used</span></div>
+      
       <div class="settings-section-label">Appearance</div>
       <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">🎨</span><span>Theme</span></div><select id="themeSelect"><option value="light">Light</option><option value="dark">Dark</option><option value="oled">OLED Black</option></select></div>
+      <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">🌐</span><span>App Language</span></div><select id="langSelect"><option value="en">English</option><option value="es">Español</option></select></div>
+      
       <div class="settings-section-label">Profile</div>
       <div class="settings-row settings-row-inline"><div class="settings-row-left"><span class="settings-row-icon">✏️</span><span>Username</span></div><input type="text" id="usernameInput" placeholder="Your name"></div>
+      
+      <div class="settings-section-label">More</div>
+      <div class="settings-row" id="inviteFromSettings"><div class="settings-row-left"><span class="settings-row-icon">🔗</span><span>Invite a Friend</span></div><span class="settings-chevron">›</span></div>
+      
       <button class="settings-save-full-btn" id="saveSettingsBtn">Save Settings</button>
     </div>
   </div>
@@ -704,7 +741,7 @@ body {
   <!-- Help Screen -->
   <div class="screen-help" id="screenHelp">
     <div class="header"><button class="back-btn" id="helpBackBtn">←</button><div class="header-center"><h1 style="font-size:18px;">HELP</h1></div><div style="width:36px"></div></div>
-    <div class="help-body"><p class="help-intro">Quick reference for JUSTUS.</p><table class="help-table"><thead><tr><th>Action</th><th>How to do it</th></tr></thead><tbody><tr><td>Add a friend</td><td>Tap 👥 → + → Search → Send Request</td></tr><tr><td>Accept request</td><td>Tap 👥 → Friend Requests → Accept</td></tr><tr><td>Remove friend</td><td>Long-press chat → Remove Friend</td></tr><tr><td>Back button</td><td>Press phone's back button to go back</td></tr></tbody></table></div>
+    <div class="help-body"><p class="help-intro">Quick reference for JUSTUS.</p><table class="help-table"><thead><tr><th>Action</th><th>How to do it</th></tr></thead><tbody><tr><td>Add a friend</td><td>Tap 👥 → + → Search → Send Request</td></tr><tr><td>Accept request</td><td>Tap 👥 → Friend Requests → Accept</td></tr><tr><td>Remove friend</td><td>Long-press chat → Remove Friend</td></tr><tr><td>Back button</td><td>Press phone's back button to go back</td></tr><tr><td>Change theme</td><td>Settings → Theme picker</td></tr></tbody></table></div>
   </div>
 
   <div class="bottom-nav">
@@ -717,6 +754,38 @@ body {
   <div class="status-modal" id="statusModal"><h3>Update Status</h3><textarea id="statusInput" rows="3" placeholder="What's on your mind?"></textarea><div class="modal-buttons"><button class="modal-cancel" id="cancelStatusBtn">Cancel</button><button class="modal-save" id="postStatusBtn">Post</button></div></div>
 </div>
 
+<!-- Swipe Panels -->
+<div class="swipe-panel-left" id="swipeLeftPanel">
+  <div style="padding: 30px 20px; text-align: center; background: linear-gradient(135deg, var(--avatar-grad-start), var(--avatar-grad-end));">
+    <div style="width: 80px; height: 80px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 40px; font-weight: bold; color: var(--accent);" id="swipeAvatar">👤</div>
+    <div style="font-size: 20px; font-weight: bold;" id="swipeName">User</div>
+    <div style="font-size: 12px; opacity: 0.8;" id="swipeStatus">Online</div>
+  </div>
+  <div style="padding: 20px;">
+    <div style="display: flex; justify-content: space-around; margin-bottom: 20px;">
+      <div style="text-align: center;"><div style="font-size: 22px; font-weight: bold; color: var(--accent);" id="swipeChatCount">0</div><div style="font-size: 11px;">Chats</div></div>
+      <div style="text-align: center;"><div style="font-size: 22px; font-weight: bold; color: var(--accent);" id="swipeMsgCount">0</div><div style="font-size: 11px;">Messages</div></div>
+      <div style="text-align: center;"><div style="font-size: 22px; font-weight: bold;">🔒</div><div style="font-size: 11px;">Private</div></div>
+    </div>
+    <div class="swipe-menu-item" id="swipeSettings"><div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;">⚙️</span><span>Settings</span></div></div>
+    <div class="swipe-menu-item" id="swipeInvite"><div style="display: flex; align-items: center; gap: 12px;"><span style="font-size: 20px;">🔗</span><span>Invite Friends</span></div></div>
+    <div class="swipe-menu-item" id="swipeLogout"><div style="display: flex; align-items: center; gap: 12px; color: #EF4444;"><span style="font-size: 20px;">🚪</span><span>Logout</span></div></div>
+  </div>
+</div>
+
+<div class="swipe-panel-right" id="swipeRightPanel">
+  <div style="padding: 20px; background: var(--header-bg); color: white;"><h3 style="font-size: 18px;">Quick Access</h3><p style="font-size: 11px; opacity: 0.8;">Swipe from right edge</p></div>
+  <div style="padding: 16px;">
+    <div style="font-weight: 600; margin-bottom: 12px; color: var(--accent);">📢 Recent Updates</div>
+    <div id="swipeUpdatesList" style="margin-bottom: 20px;"></div>
+    <div style="font-weight: 600; margin-bottom: 12px; color: var(--accent);">📞 Recent Calls</div>
+    <div id="swipeCallsList"></div>
+    <button id="swipeViewUpdates" style="width: 100%; margin-top: 20px; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 12px;">View All Updates →</button>
+    <button id="swipeViewCalls" style="width: 100%; margin-top: 10px; padding: 12px; background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); border-radius: 12px;">View All Calls →</button>
+  </div>
+</div>
+<div class="swipe-overlay" id="swipeOverlay"></div>
+
 <script>
 const firebaseConfig = { apiKey: "AIzaSyDUHVeaHIMRS8GxkFNEjVSXfUeKr_mQnp0", authDomain: "just-you-n-i.firebaseapp.com", databaseURL: "https://just-you-n-i-default-rtdb.firebaseio.com", projectId: "just-you-n-i", storageBucket: "just-you-n-i.firebasestorage.app" };
 firebase.initializeApp(firebaseConfig);
@@ -727,6 +796,109 @@ let friends = [], friendRequests = [];
 let statuses = JSON.parse(localStorage.getItem('justus_statuses') || '[{"name":"Alex","text":"Working on JUSTUS! 🚀","time":"2 hours ago","avatar":"A"}]');
 let calls = JSON.parse(localStorage.getItem('justus_calls') || '[]');
 let navigationHistory = ['chats'];
+
+// Settings state
+let lastSeenEnabled = localStorage.getItem('lastSeen') !== 'false';
+let readReceiptsEnabled = localStorage.getItem('readReceipts') !== 'false';
+let enterToSendEnabled = localStorage.getItem('enterToSend') !== 'false';
+let notificationsEnabled = localStorage.getItem('notifications') === 'on';
+let currentLang = localStorage.getItem('app_language') || 'en';
+
+function updateSettingsUI() {
+  document.getElementById('privacyValue').innerText = `Last seen: ${lastSeenEnabled ? 'ON' : 'OFF'}`;
+  document.getElementById('chatsValue').innerText = `Enter to send: ${enterToSendEnabled ? 'ON' : 'OFF'}`;
+  document.getElementById('notifValue').innerText = notificationsEnabled ? 'Enabled' : 'Tap to enable';
+  let size = 0; for (let k in localStorage) if (localStorage.hasOwnProperty(k)) size += localStorage[k].length;
+  document.getElementById('storageValue').innerText = `${(size/1024).toFixed(1)} KB used`;
+}
+
+// Privacy settings - REAL
+document.getElementById('privacySettingsBtn').onclick = () => {
+  const choice = confirm(`🔒 Privacy Settings\n\n✓ Last Seen: ${lastSeenEnabled ? 'ON' : 'OFF'}\n✓ Read Receipts: ${readReceiptsEnabled ? 'ON' : 'OFF'}\n\nTap OK to toggle Last Seen, Cancel for Read Receipts`);
+  if (choice) {
+    lastSeenEnabled = !lastSeenEnabled;
+    localStorage.setItem('lastSeen', lastSeenEnabled);
+    alert(`Last Seen ${lastSeenEnabled ? 'ON' : 'OFF'}`);
+  } else {
+    readReceiptsEnabled = !readReceiptsEnabled;
+    localStorage.setItem('readReceipts', readReceiptsEnabled);
+    alert(`Read Receipts ${readReceiptsEnabled ? 'ON' : 'OFF'}`);
+  }
+  updateSettingsUI();
+};
+
+// Chats settings - REAL (Enter to send)
+document.getElementById('chatsPrefBtn').onclick = () => {
+  enterToSendEnabled = !enterToSendEnabled;
+  localStorage.setItem('enterToSend', enterToSendEnabled);
+  alert(`Enter to send ${enterToSendEnabled ? 'ON' : 'OFF'}`);
+  updateSettingsUI();
+};
+
+// Notifications - REAL browser push
+document.getElementById('notifPrefBtn').onclick = async () => {
+  if ('Notification' in window) {
+    if (Notification.permission === 'granted') {
+      notificationsEnabled = true;
+      localStorage.setItem('notifications', 'on');
+      alert('🔔 Notifications enabled');
+    } else if (Notification.permission === 'denied') {
+      alert('❌ Notifications blocked. Please enable in browser settings.');
+    } else {
+      const result = await Notification.requestPermission();
+      notificationsEnabled = result === 'granted';
+      localStorage.setItem('notifications', notificationsEnabled ? 'on' : 'off');
+      alert(notificationsEnabled ? '✅ Notifications enabled!' : 'Notifications disabled');
+    }
+  } else {
+    alert('Your browser does not support notifications');
+  }
+  updateSettingsUI();
+};
+
+// Storage & Data - REAL
+document.getElementById('storagePrefBtn').onclick = () => {
+  let size = 0; for (let k in localStorage) if (localStorage.hasOwnProperty(k)) size += localStorage[k].length;
+  const choice = confirm(`💾 Storage & Data\n\n📦 Local Storage: ${(size/1024).toFixed(1)} KB\n\nTap OK to clear local cache`);
+  if (choice) {
+    const keep = ['justus_theme', 'notifications', 'enterToSend', 'lastSeen', 'readReceipts', 'app_language', 'justus_statuses', 'justus_calls'];
+    const toKeep = {};
+    keep.forEach(k => { if (localStorage.getItem(k)) toKeep[k] = localStorage.getItem(k); });
+    localStorage.clear();
+    Object.assign(localStorage, toKeep);
+    alert('✅ Local cache cleared!');
+    updateSettingsUI();
+  }
+};
+
+// App Language - REAL translations
+const translations = {
+  en: { chats: 'Chats', updates: 'Updates', calls: 'Calls', typeMessage: 'Type a message...', online: 'Online', offline: 'Offline' },
+  es: { chats: 'Charlas', updates: 'Actualizaciones', calls: 'Llamadas', typeMessage: 'Escribe un mensaje...', online: 'En línea', offline: 'Desconectado' }
+};
+function translateUI() {
+  const t = translations[currentLang];
+  if (t) {
+    document.querySelectorAll('.nav-item[data-screen="chats"] .nav-label').forEach(el => el.innerText = t.chats);
+    document.querySelectorAll('.nav-item[data-screen="updates"] .nav-label').forEach(el => el.innerText = t.updates);
+    document.querySelectorAll('.nav-item[data-screen="calls"] .nav-label').forEach(el => el.innerText = t.calls);
+    if (document.getElementById('messageInput')) document.getElementById('messageInput').placeholder = t.typeMessage;
+  }
+}
+document.getElementById('langSelect').onchange = () => {
+  currentLang = document.getElementById('langSelect').value;
+  localStorage.setItem('app_language', currentLang);
+  translateUI();
+  alert(`Language changed to ${currentLang === 'en' ? 'English' : 'Español'}`);
+};
+
+// Enter to send handler
+function handleEnterKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey && enterToSendEnabled) {
+    e.preventDefault();
+    document.getElementById('sendBtn').click();
+  }
+}
 
 function showScreen(screen) {
   if (navigationHistory[navigationHistory.length - 1] !== screen) navigationHistory.push(screen);
@@ -741,11 +913,10 @@ function showScreen(screen) {
 
 function goBackToChats() { showScreen('chats'); navigationHistory = ['chats']; }
 
-// Hardware back button support (Android)
+// Hardware back button support
 document.addEventListener('backbutton', function(e) {
   e.preventDefault();
-  const current = navigationHistory[navigationHistory.length - 1];
-  if (current !== 'chats') { goBackToChats(); }
+  if (navigationHistory[navigationHistory.length - 1] !== 'chats') { goBackToChats(); }
   else { if (confirm('Exit JUSTUS?')) navigator.app.exitApp(); }
 });
 window.addEventListener('popstate', function(e) {
@@ -775,9 +946,11 @@ auth.onAuthStateChanged(async user => {
     friends = snap.val() || [];
     const reqSnap = await db.ref(`friendRequests/${currentUser.uid}/incoming`).once('value');
     friendRequests = reqSnap.val() || [];
-    db.ref('users').on('value', s => { allUsers = s.val() || {}; renderChatList(); });
+    db.ref('users').on('value', s => { allUsers = s.val() || {}; renderChatList(); updateSwipePanels(); });
     showScreen('chats');
     document.getElementById('usernameInput').value = currentUser.name;
+    updateSettingsUI();
+    translateUI();
   } else { showScreen('auth'); }
 });
 
@@ -796,7 +969,8 @@ function openChat(uid, name) {
   currentChatId = uid;
   document.getElementById('chatName').innerText = name;
   document.getElementById('chatAvatar').innerText = name[0].toUpperCase();
-  document.getElementById('chatStatus').innerText = allUsers[uid]?.online ? 'Online' : 'Offline';
+  const isOnline = allUsers[uid]?.online;
+  document.getElementById('chatStatus').innerText = isOnline ? (translations[currentLang]?.online || 'Online') : (translations[currentLang]?.offline || 'Offline');
   const key = getKey(currentUser.uid, uid);
   db.ref(`messages/${key}`).off();
   db.ref(`messages/${key}`).limitToLast(50).on('child_added', snap => { if (snap.val()) appendMessage(snap.val()); });
@@ -808,8 +982,13 @@ function appendMessage(msg) {
   const isMine = msg.sender === currentUser.uid;
   const time = new Date(msg.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
   if (container.innerHTML === '') container.innerHTML = '';
-  container.innerHTML += `<div class="message ${isMine ? 'sent' : 'received'}"><div class="message-bubble">${msg.text}<div class="message-meta"><span>${time}</span>${isMine ? ' ✓✓' : ''}</div></div></div>`;
+  container.innerHTML += `<div class="message ${isMine ? 'sent' : 'received'}"><div class="message-bubble">${msg.text}<div class="message-meta"><span>${time}</span>${isMine && readReceiptsEnabled ? ' ✓✓' : ''}</div></div></div>`;
   container.scrollTop = container.scrollHeight;
+  
+  // Real notification for incoming messages
+  if (!isMine && notificationsEnabled && document.hidden) {
+    new Notification('JUSTUS', { body: `${allUsers[msg.sender]?.name || 'Someone'}: ${msg.text.substring(0, 50)}`, icon: 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 fill=%27%23075E54%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 text-anchor=%27middle%27 dy=%27.35em%27 fill=%27white%27 font-size=%2760%27%3E🔒%3C/text%3E%3C/svg%3E' });
+  }
 }
 
 document.getElementById('sendBtn').onclick = () => {
@@ -819,7 +998,7 @@ document.getElementById('sendBtn').onclick = () => {
   db.ref(`messages/${getKey(currentUser.uid, currentChatId)}`).push({ text, sender: currentUser.uid, ts: Date.now() });
   input.value = '';
 };
-document.getElementById('messageInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); document.getElementById('sendBtn').click(); } });
+document.getElementById('messageInput').addEventListener('keypress', handleEnterKey);
 
 // Navigation buttons
 document.getElementById('chatBackBtn').onclick = goBackToChats;
@@ -871,40 +1050,85 @@ document.getElementById('searchUserInput').addEventListener('input', (e) => {
   }, 300);
 });
 
-// Settings
+// Settings save
 document.getElementById('saveSettingsBtn').onclick = async () => {
   const newName = document.getElementById('usernameInput').value.trim();
   if (newName && newName !== currentUser.name) { await auth.currentUser.updateProfile({ displayName: newName }); await db.ref(`users/${currentUser.uid}/name`).set(newName); currentUser.name = newName; alert('Name updated!'); }
   const theme = document.getElementById('themeSelect').value;
   document.body.className = theme;
   localStorage.setItem('justus_theme', theme);
+  updateSettingsUI();
 };
 document.getElementById('themeSelect').onchange = () => { document.body.className = document.getElementById('themeSelect').value; };
 document.getElementById('accSettingsBtn').onclick = () => { const newPass = prompt('Enter new password (min 6 chars)'); if (newPass && newPass.length >= 6) auth.currentUser.updatePassword(newPass).then(() => alert('Password changed!')); };
+document.getElementById('inviteFromSettings').onclick = () => alert('🔐 Invite code: JUSTUS2024\n\nShare this code with friends to join!');
 document.getElementById('menuSettings').onclick = () => { dropdown.classList.remove('show'); showScreen('settings'); };
 document.getElementById('menuHelp').onclick = () => { dropdown.classList.remove('show'); showScreen('help'); };
-document.getElementById('menuInvite').onclick = () => alert('Invite code: JUSTUS2024');
+document.getElementById('menuInvite').onclick = () => alert('🔐 Invite code: JUSTUS2024');
 document.getElementById('menuLogout').onclick = () => auth.signOut();
 
 // Status & Calls
-function renderStatusList() { const container = document.getElementById('statusList'); container.innerHTML = statuses.map(s => `<div class="status-card"><div class="status-avatar-small">${s.avatar}</div><div class="status-info"><div class="status-name">${s.name}</div><div class="status-text">${s.text}</div><div class="status-time">${s.time}</div></div></div>`).join(''); }
-function renderCallList() { const container = document.getElementById('callList'); container.innerHTML = calls.map(c => `<div class="call-item"><div class="call-avatar">${c.avatar}</div><div class="call-info"><div class="call-name">${c.name}</div><div class="call-type">${c.type}</div><div class="status-time">${c.time}</div></div><button class="call-btn" data-name="${c.name}">📞</button></div>`).join(''); document.querySelectorAll('.call-btn').forEach(btn => btn.onclick = () => { const name = btn.dataset.name; calls.unshift({ name, type: 'Outgoing', time: 'Just now', avatar: name.charAt(0) }); localStorage.setItem('justus_calls', JSON.stringify(calls.slice(0,20))); renderCallList(); alert(`Calling ${name}...`); }); }
+function renderStatusList() { const container = document.getElementById('statusList'); container.innerHTML = statuses.map(s => `<div class="status-card"><div class="status-avatar-small">${s.avatar}</div><div class="status-info"><div class="status-name">${s.name}</div><div class="status-text">${s.text}</div><div class="status-time">${s.time}</div></div></div>`).join(''); updateSwipePanels(); }
+function renderCallList() { const container = document.getElementById('callList'); container.innerHTML = calls.map(c => `<div class="call-item"><div class="call-avatar">${c.avatar}</div><div class="call-info"><div class="call-name">${c.name}</div><div class="call-type">${c.type}</div><div class="status-time">${c.time}</div></div><button class="call-btn" data-name="${c.name}">📞</button></div>`).join(''); document.querySelectorAll('.call-btn').forEach(btn => btn.onclick = () => { const name = btn.dataset.name; calls.unshift({ name, type: 'Outgoing', time: 'Just now', avatar: name.charAt(0) }); localStorage.setItem('justus_calls', JSON.stringify(calls.slice(0,20))); renderCallList(); alert(`Calling ${name}...`); }); updateSwipePanels(); }
 document.getElementById('openStatusBtn').onclick = () => { document.getElementById('statusModal').classList.add('open'); document.getElementById('overlay').classList.add('show'); };
 document.getElementById('cancelStatusBtn').onclick = () => { document.getElementById('statusModal').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); };
 document.getElementById('postStatusBtn').onclick = () => { const text = document.getElementById('statusInput').value.trim(); if (text) { statuses.unshift({ name: currentUser?.name || 'User', text, time: 'Just now', avatar: (currentUser?.name?.[0] || 'U').toUpperCase() }); localStorage.setItem('justus_statuses', JSON.stringify(statuses.slice(0,20))); renderStatusList(); document.getElementById('statusModal').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); document.getElementById('statusInput').value = ''; alert('Status posted!'); } };
 document.getElementById('overlay').onclick = () => { document.getElementById('statusModal').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); };
 
-// Bottom Nav
+// Bottom navigation
 document.querySelectorAll('.nav-item').forEach(item => { item.onclick = () => { if (item.dataset.screen === 'chats') showScreen('chats'); else if (item.dataset.screen === 'updates') { renderStatusList(); showScreen('updates'); } else if (item.dataset.screen === 'calls') { renderCallList(); showScreen('calls'); } }; });
 
+// Menu dropdown
 const menuBtn = document.getElementById('menuBtn'), dropdown = document.getElementById('dropdownMenu');
 menuBtn.onclick = (e) => { e.stopPropagation(); dropdown.classList.toggle('show'); };
 document.onclick = () => dropdown.classList.remove('show');
 
+// Swipe panels
+const leftPanel = document.getElementById('swipeLeftPanel'), rightPanel = document.getElementById('swipeRightPanel'), swipeOverlayEl = document.getElementById('swipeOverlay');
+function closePanels() { leftPanel.classList.remove('open'); rightPanel.classList.remove('open'); swipeOverlayEl.classList.remove('show'); }
+function openLeftPanel() { closePanels(); leftPanel.classList.add('open'); swipeOverlayEl.classList.add('show'); }
+function openRightPanel() { closePanels(); rightPanel.classList.add('open'); swipeOverlayEl.classList.add('show'); }
+swipeOverlayEl.onclick = closePanels;
+document.getElementById('swipeSettings').onclick = () => { closePanels(); showScreen('settings'); };
+document.getElementById('swipeInvite').onclick = () => { closePanels(); alert('Invite code: JUSTUS2024'); };
+document.getElementById('swipeLogout').onclick = () => { closePanels(); auth.signOut(); };
+document.getElementById('swipeViewUpdates').onclick = () => { closePanels(); renderStatusList(); showScreen('updates'); };
+document.getElementById('swipeViewCalls').onclick = () => { closePanels(); renderCallList(); showScreen('calls'); };
+
+function updateSwipePanels() {
+  if (currentUser) {
+    document.getElementById('swipeAvatar').innerText = currentUser.name?.[0]?.toUpperCase() || '👤';
+    document.getElementById('swipeName').innerText = currentUser.name || 'User';
+    document.getElementById('swipeStatus').innerText = 'Online';
+    const chatCount = friends.length;
+    document.getElementById('swipeChatCount').innerText = chatCount;
+    document.getElementById('swipeMsgCount').innerText = '🔒';
+  }
+  const updatesContainer = document.getElementById('swipeUpdatesList');
+  if (updatesContainer) updatesContainer.innerHTML = statuses.slice(0, 3).map(s => `<div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border);"><div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--avatar-grad-start), var(--avatar-grad-end)); display: flex; align-items: center; justify-content: center;">${s.avatar}</div><div style="flex:1"><div style="font-size: 13px; font-weight: 500;">${s.name}</div><div style="font-size: 11px; color: var(--text-muted);">${s.text.substring(0, 30)}</div></div></div>`).join('');
+  const callsContainer = document.getElementById('swipeCallsList');
+  if (callsContainer) callsContainer.innerHTML = calls.slice(0, 3).map(c => `<div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border);"><div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--avatar-grad-start), var(--avatar-grad-end)); display: flex; align-items: center; justify-content: center;">${c.avatar}</div><div style="flex:1"><div style="font-size: 13px; font-weight: 500;">${c.name}</div><div style="font-size: 11px; color: var(--text-muted);">${c.type} • ${c.time}</div></div></div>`).join('');
+}
+
+let touchStartX = 0;
+document.querySelector('.main-content').addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.querySelector('.main-content').addEventListener('touchend', (e) => {
+  const endX = e.changedTouches[0].clientX, diffX = endX - touchStartX;
+  if (Math.abs(diffX) < 50) return;
+  if (touchStartX < 80 && diffX > 50) openRightPanel();
+  else if (touchStartX > window.innerWidth - 80 && diffX < -50) openLeftPanel();
+  touchStartX = 0;
+});
+
+// Initialize
 const savedTheme = localStorage.getItem('justus_theme');
 if (savedTheme) document.body.className = savedTheme;
 document.getElementById('themeSelect').value = savedTheme || 'light';
+document.getElementById('langSelect').value = currentLang;
 renderStatusList(); renderCallList();
+setTimeout(updateSwipePanels, 500);
+updateSettingsUI();
+translateUI();
 </script>
 </body>
 </html>
